@@ -1,0 +1,68 @@
+{
+  "size": 0,
+  "aggs": {
+    "date_aggs": {
+      "date_histogram": {
+        "field": "@timestamp",
+        "interval": "1d",
+        "time_zone": "Asia/Hong_Kong",
+        "min_doc_count": 1,
+        "extended_bounds": {
+          "min": 1456761600000,
+          "max": 1459439999999
+        }
+      },
+	  "aggs" : {
+		"refer_aggs" : {
+		  "terms" : {
+			"field" : "refer.raw",
+			"size": 0
+		  },	  
+		  "aggs": {
+			"uv_stats": {
+			  "cardinality": {
+				"field": "cookie_id.raw"
+			  }
+			},
+			"ip_stats": {
+			  "cardinality": {
+				"field": "clientip.raw"
+			  }
+			},
+			"session_stats": {
+			  "cardinality": {
+				"field": "session_id.raw"
+			  }
+			}
+		  }
+		}
+	  }
+    }
+  },
+  "query": {
+    "filtered": {
+      "query": {
+        "query_string": {
+          "analyze_wildcard": true,
+          "query": "*"
+        }
+      },
+      "filter": {
+        "bool": {
+          "must": [
+            {
+              "range": {
+                "@timestamp": {
+                  "gte": 1144,
+                  "lte": 9944,
+                  "format": "epoch_millis"
+                }
+              }
+            }
+          ],
+          "must_not": []
+        }
+      }
+    }
+  }
+}

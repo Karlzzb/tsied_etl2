@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+ <mapper namespace="com.etl.entity.TestMysql">
+ 	<select id="selectTest" parameterType="_test"  resultType="_test">
+ 		select test_key testKey,
+ 		       test_value testValue
+ 		 from test
+ 		 <where>
+ 		  	1 = 1
+ 		  	<if test="testKey != null">
+ 		  		and test_key=#{testKey}
+ 		  	</if>
+ 		  	<if test="testValue != 0">
+ 		  		and test_value=#{testValue}
+ 		  	</if>
+ 		 </where>
+ 	</select>
+ 	
+ 	<insert id="saveTest" parameterType="_test">
+ 		insert into test(
+ 			test_key,
+ 			test_value
+ 		)values(
+ 			#{testKey},
+ 			#{testValue}
+ 		)
+ 	</insert>	
+ </mapper>

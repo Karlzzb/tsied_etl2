@@ -1,0 +1,41 @@
+{
+"mappings" : {
+  "_default_" : {
+	"_all" : {
+	  "enabled" : true
+	},
+    "dynamic_date_formats" : [ "date_optional_time", "date_time_no_millis" ],
+	"dynamic_templates" : [ {
+	  "string_fields" : {
+		"mapping" : {
+		  "type" : "multi_field",
+		  "fields" : {
+			"{name}" : {
+			  "index" : "analyzed",
+			  "omit_norms" : true,
+			  "type" : "string",
+			  "index_options" : "docs"
+			},
+			"raw" : {
+			  "ignore_above" : 256,
+			  "index" : "not_analyzed",
+			  "type" : "string"
+			}
+		  }
+		},
+		"match" : "*",
+		"match_mapping_type" : "string"
+	  }
+	} ],
+	"properties" : {
+	  "id" : {
+         "type" : "string"
+      },
+	  "@version" : {
+		"type" : "string",
+		"index" : "not_analyzed"
+	  }
+	}
+  }
+}
+}

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.etl.entity.AdPayStats">
+	<!-- 注册用户消费数 -->
+  	<select id="selectpay" parameterType="_pay"  resultType="_pay">
+	select r.refer as source_url, #{project} as project,
+	s.reguserpaycnt as reguserpaycnt, #{id} as id from refer r left
+	join (select ifnull(sum(s.out_silver), 0)
+	as reguserpaycnt, l.refer as
+	source_url, l.project as project,
+	#{id} as id from
+	u_user_score_history s
+	join loginuser l on l.uid = s.uid and
+	DateDIFF(s.init_time,
+	l.init_time)
+	= 0 where l.utype = 1 and l.project = #{project} and action_type
+	=2 and
+	l.init_time between #{regTimeStart} and #{regTimeEnd} group by
+	l.refer)
+	s
+	on r.refer = s.source_url;
+ 	</select>
+ 	
+ 	<!-- 登录用户消费数 -->
+ 	<select id="selectloginuserpaycnt" parameterType="_pay"  resultType="_pay">
+	select r.refer as source_url, #{project} as project,
+	s.loginuserpaycnt as loginuserpaycnt,
+	#{id} as id from refer r left
+	join (select ifnull(sum(s.out_silver), 0)
+	as
+	loginuserpaycnt, l.refer as source_url, l.project as project,
+	#{id} as
+	id from u_user_score_history s
+	join loginuser l on l.uid = s.uid and
+	DateDIFF(s.init_time,
+	l.init_time) = 0 where l.utype = 0 and l.project =
+	#{project} and action_type =2 and l.init_time
+	between #{loginTimeStart}
+	and #{loginTimeEnd} group by l.refer)
+	s
+	on r.refer = s.source_url;
+ 	</select>
+ 	
+ 	<!-- 某个时间段消费人数 -->
+ 	<select id="selectusercnt" parameterType="_pay"  resultType="_pay">
+	select r.refer as source_url, #{project} as project,
+	ifnull(s.payusercnt, 0) as payusercnt, 
+	#{id} as id from refer r left
+	join (select count(distinct s.uid) as payusercnt, l.refer as source_url, l.project as project,
+	#{id} as id from u_user_score_history s join loginuser l on
+	l.uid = s.uid and datediff(l.init_time, s.init_time) = 0 where
+	s.action_type = 2 and l.project = #{project} and l.init_time between #{TimeStart} and
+	#{TimeEnd} group by l.refer)
+	s
+	on r.refer = s.source_url;
+ 	</select>
+ 	
+ 	<!-- 某个时间段消费次数 -->
+ 	<select id="selectpaycnt" parameterType="_pay"  resultType="_pay">
+	select r.refer as source_url, #{project} as project,
+	ifnull(s.paycnt, 0) as paycnt, 
+	#{id} as id from all_stats.refer r left
+	join (select count(1) as paycnt, l.refer as source_url, l.project as project, #{id} as id
+	from u_user_score_history s join all_stats.loginuser l on l.uid = s.uid and
+	datediff(l.init_time, s.init_time) = 0 where s.action_type = 2 and l.project = #{project} and
+	l.init_time between #{TimeStart} and #{TimeEnd}
+	group by l.refer)
+	s
+	on r.refer = s.source_url;
+ 	</select>
+ 	
+ 	<!-- 某个时间段某个来源新增注册的人数 -->  
+ 	<select id="selectregusercnt" parameterType="_pay"  resultType="_pay">
+	select r.refer as source_url, #{project} as project,
+	ifnull(s.regusercnt, 0) as
+	regusercnt, #{id} as id from all_stats.refer r left
+	join (select l.refer as source_url, l.project as project, count(l.uid)
+	as
+	regusercnt, #{id} as id from u_user_details u
+	right join all_stats.loginuser l
+	on l.uid =
+	u.user_id and DateDIFF(
+	from_unixtime(u.reg_time),
+	l.init_time) = 0
+	where l.init_time between
+	#{regTimeStart} and
+	#{regTimeEnd} and l.project = #{project} and user_id
+	is not null
+	group by
+	l.refer, date(l.init_time)) s
+	on r.refer = s.source_url;
+ 	</select>
+ 	
+ 	
+ 	<!-- 某个时间段某个来源登录的人数 -->
+ 	<select id="selectloginusercnt" parameterType="_pay"  resultType="_pay">
+	select r.refer as source_url, #{project} as project, ifnull(s.loginusercnt, 0) as
+	loginusercnt, #{id} as id from all_stats.refer r left join (select l.refer
+	as source_url, count(l.uid) as
+	loginusercnt, l.project as project, #{id}
+	as id from u_user_details u
+	right join
+	all_stats.loginuser l on l.uid = u.user_id
+	and DateDIFF(
+	from_unixtime(u.reg_time), l.init_time) = 0 where
+	l.init_time between
+	#{loginTimeStart} and #{loginTimeEnd} and l.project
+	= #{project} and user_id is null
+	group by
+	l.refer, date(l.init_time)) s
+	on r.refer = s.source_url;
+ 	</select>
+ 	
+ 	<!-- 留存率 -->
+ 	<select id="selectretrate" parameterType="_pay"  resultType="_pay">
+	select r.refer as source_url, #{project} as project, ifnull(s.rate, 0) as
+	rate, #{id} as id from all_stats.refer r left join (select l.refer as source_url, l.project as project, count(distinct d.uid)/count(distinct l.uid) * 100 as rate, #{id} as id from
+	all_stats.loginuser l left join all_stats.loginuser d on l.uid = d.uid and d.init_time
+	between #{TimeStart} and #{TimeEnd} where
+	l.init_time between DATE_SUB(#{TimeStart}, INTERVAL #{day} DAY) and DATE_SUB(#{TimeEnd}, INTERVAL #{day} DAY) and l.project = #{project} and
+	l.utype = 1 group by l.refer) s
+	on r.refer = s.source_url;
+ 	</select>
+ 	 		
+ 	<!-- 某个项目总注册的人数 -->  
+ 	<select id="selectsumregusercnt" parameterType="_pay"  resultType="_pay">
+	select count(1) as sumregusercnt, #{projectname} as projectname, #{id} as id  from u_user_details where reg_app  = #{projectname} and reg_time &lt;= unix_timestamp(#{regTimeEnd})
+ 	</select>
+ 	
+ 	<!-- 某个项目登录的人数 -->	
+ 	<select id="selectsumloginusercnt" parameterType="_pay"  resultType="_pay">
+ 	select count(distinct uid) as sumloginusercnt , #{project} as project, #{id} as id from all_stats.loginuser where project = #{project} and utype = 0 and init_time between #{loginTimeStart} and #{loginTimeEnd};	
+	</select>
+	
+	<!-- 更新某个时间段某个来源注册状态-->
+	<update id="updateloginuser" parameterType="_pay">
+	update all_stats.loginuser a join (select distinct l.uid uid, date(l.init_time)
+	init_time from u_user_details u right join all_stats.loginuser l on l.uid =
+	u.user_id and DateDIFF( from_unixtime(u.reg_time), l.init_time) = 0
+	where l.init_time between #{TimeStart} and #{TimeEnd} and l.project = #{project} and user_id is not null ) as b on a.uid = b.uid and
+	b.init_time = date(a.init_time) set utype = 1;	
+ 	</update>
+ 	
+ 	<!-- 插入user数据 -->
+ 	<insert id="saveuser" parameterType="_pay">
+ 		insert ignore into all_stats.loginuser(
+ 			uid,
+ 			refer,
+ 			init_time,
+ 			project
+ 		)values
+ 		<foreach collection="list" item="item" index="index" separator="," > 
+ 			(#{item.uid},
+ 			#{item.source_url},
+ 			#{item.inittime},
+ 			#{item.project})
+ 		</foreach>	
+ 		
+ 	</insert>
+ 	
+ 	<!-- 插入refer数据 -->
+ 	<insert id="saverefer" parameterType="_pay">
+ 		insert ignore into all_stats.refer(
+ 		refer
+ 		)values
+ 		<foreach collection="list" item="item" index="index" separator="," > 
+ 			(
+ 			#{item.source_url}
+ 			)
+ 		</foreach>	
+ 		
+ 	</insert>		
+ </mapper>
+

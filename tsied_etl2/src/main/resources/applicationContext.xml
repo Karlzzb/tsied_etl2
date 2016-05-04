@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	default-autowire="byName" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+	   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+	   http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.8.xsd">
+
+	<!-- scan the package and the sub package -->
+	<context:component-scan base-package="com.etl" />
+
+	<!--load source properties -->
+	<bean id="propertyCfg"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/db.properties</value>
+				<value>classpath:/redis.properties</value>
+				<value>classpath:/mongo.properties</value>
+				<value>classpath:/es.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="parentDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"/>  
+	
+	<bean id="ds1" parent="parentDataSource">  
+        <property name="driverClassName">
+			<value>${dataSource.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${tsied_db.url}</value>
+		</property>
+		<property name="username">
+			<value>${tsied_db.username}</value>
+		</property>
+		<property name="password">
+			<value>${tsied_db.password}</value>
+		</property>
+		
+    </bean>  
+    
+    <bean id="ds2" parent="parentDataSource">  
+       <property name="driverClassName">
+			<value>${dataSource.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${gb_leajoy.url}</value>
+		</property>
+		<property name="username">
+			<value>${gb_leajoy.username}</value>
+		</property>
+		<property name="password">
+			<value>${gb_leajoy.password}</value>
+		</property>
+    </bean>  
+    
+    <bean id="ds3" parent="parentDataSource">  
+       <property name="driverClassName">
+			<value>${dataSource.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${u_leajoy.url}</value>
+		</property>
+		<property name="username">
+			<value>${u_leajoy.username}</value>
+		</property>
+		<property name="password">
+			<value>${u_leajoy.password}</value>
+		</property>
+    </bean> 
+    <!-- mutil source -->
+	<bean id="dataSource" class="com.etl.mutilDataSource.DataSources">
+		<property name="targetDataSources">  
+            <map key-type="java.lang.String">  
+                <entry value-ref="ds1" key="tsied_db"></entry>  
+				<entry value-ref="ds2" key="gb_leajoy"></entry>
+                <entry value-ref="ds3" key="u_leajoy"></entry>  
+            </map>  
+        </property>  
+        <property name="defaultTargetDataSource" ref="ds1"></property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/mybatis-config.xml" />
+	</bean>
+
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sessionFactory" />
+	</bean>
+
+
+
+	<!-- redis config -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="${redis.maxTotal}" />
+		<property name="maxIdle" value="${redis.maxIdle}" />
+		<property name="maxWaitMillis" value="${redis.maxWaitMillis}" />
+		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
+		<property name="testOnReturn" value="true" />
+	</bean>
+
+	<bean id="jedisFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="hostName" value="${redis.host}" />
+		<property name="port" value="${redis.port}" />
+		<property name="usePool" value="true" />
+		<property name="poolConfig" ref="jedisPoolConfig" />
+	</bean>
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisFactory" />
+		<property name="enableTransactionSupport" value="true" />
+		<property name="defaultSerializer">
+			<bean class="com.etl.base.CustomRedisSerializer" />
+		</property>
+	</bean>
+
+	<!-- mongo config -->
+<!-- 	<mongo:mongo id="mongo" host="${mongo.host}" port="${mongo.port}">
+		<mongo:options connections-per-host="${mongo.connectionsPerHost}" 
+			threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}" 
+			connect-timeout="${mongo.connectTimeout}" max-wait-time="${mongo.maxWaitTime}" 
+			auto-connect-retry="${mongo.autoConnectRetry}" socket-keep-alive="${mongo.socketKeepAlive}" 
+			socket-timeout="${mongo.socketTimeout}" slave-ok="${mongo.slaveOk}" write-number="1" 
+			write-timeout="0" write-fsync="true" />
+	</mongo:mongo>
+
+	<mongo:db-factory dbname="${mongo.dbname}" mongo-ref="mongo" />
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+	</bean> -->
+
+	<bean id="baseESOption" class="com.etl.es.BaseESOption">
+		<constructor-arg name="esip" value="${es.base.ip}" />
+		<constructor-arg name="esport" value="${es.base.port}" />
+		<constructor-arg name="clusterName" value="${es.base.clustername}" />
+	</bean>
+
+	<bean id="apESOption" class="com.etl.es.BaseESOption">
+		<constructor-arg name="esip" value="${es.ap.ip}" />
+		<constructor-arg name="esport" value="${es.ap.port}" />
+		<constructor-arg name="clusterName" value="${es.ap.clustername}" />
+	</bean>
+	
+	<aop:aspectj-autoproxy/>
+	<!-- Spring task configuration -->
+   <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>
+   <task:scheduler id="qbScheduler" pool-size="50"/>
+	
+</beans> 

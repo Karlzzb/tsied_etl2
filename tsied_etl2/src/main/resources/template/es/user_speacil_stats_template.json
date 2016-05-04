@@ -1,0 +1,91 @@
+{
+  "size": 0,
+  "query": {
+    "filtered": {
+      "query": {
+        "query_string": {
+          "query": "*",
+          "analyze_wildcard": true
+        }
+      },
+      "filter": {
+        "bool": {
+          "must": [
+          	{
+              "regexp": {
+                "refer_path.raw": "/activity/.*/348.html|/act.html"
+              }
+            },
+			{
+              "query": {
+                "match": {
+                  "refer": {
+                    "query": "www.sinyuwang.com",
+                    "type": "phrase"
+                  }
+                }
+              }             
+            },
+            {
+              "range": {
+                "@timestamp": {
+                  "gte": 1144,
+                  "lte": 9944,
+                  "format": "epoch_millis"
+                }
+              }
+            }
+          ],
+          "must_not": []
+        }
+      }
+    }
+  },
+  "aggs": {
+    "date_aggs": {
+      "date_histogram": {
+        "field": "@timestamp",
+        "interval": "1d",
+        "time_zone": "Asia/Shanghai",
+        "min_doc_count": 1,
+        "extended_bounds": {
+          "min": 1461513600000,
+          "max": 1461599999999
+        }
+      },
+      "aggs": {
+        "ad_domain": {
+          "terms": {
+            "field": "refer.raw",
+            "size": 0,
+            "order": {
+              "_count": "desc"
+            }
+          },
+          "aggs": {
+            "ad_path": {
+              "terms": {
+                "field": "refer_path.raw",
+                "size": 0,
+                "order": {
+                  "_count": "desc"
+                }
+              },
+              "aggs": {
+                "user_stats": {
+                  "terms": {
+                    "field": "user_id.raw",
+                    "size": 0,
+                    "order": {
+                      "_count": "desc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
