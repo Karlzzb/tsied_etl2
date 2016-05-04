@@ -12,7 +12,7 @@ pidfile="/var/run/$name.pid"
 
 TSIED_USER=root
 TSIED_GROUP=root
-TSIED_HOME=/var/lib/tsied
+TSIED_HOME=/data/tsied_elt
 
 TSIED_LOG_DIR=/var/log/tsied
 LS_OPEN_FILES=16384
@@ -21,17 +21,12 @@ LS_NICE=19
 [ -r /etc/default/$name ] && . /etc/default/$name
 [ -r /etc/sysconfig/$name ] && . /etc/sysconfig/$name
 
-program="${JAVA_HOME}/bin/java -Xms4096m -Xmx4096m -Dtsied.log.dir=${TSIED_LOG_DIR} -jar tsied_etl.jar "
+program="${JAVA_HOME}/bin/java -Xms4096m -Xmx4096m -Dtsied.log.dir=${TSIED_LOG_DIR} -jar ${TSIED_HOME}/tsied_etl.jar "
 
 start() {
 
   # Run the program!
-  chroot --userspec $TSIED_USER:$TSIED_GROUP / sh -c "
-    cd $TSIED_HOME
-    nice ${LS_NICE}
-    ulimit -n ${LS_OPEN_FILES}
-    exec \"$program\" $args
-  " > /dev/null 2> /dev/null &
+  $program  > /dev/null &
 
   # Generate the pidfile from here. If we instead made the forked process
   # generate it there will be a race condition between the pidfile writing

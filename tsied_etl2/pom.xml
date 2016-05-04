@@ -173,6 +173,10 @@
                             <Class-Path>conf/</Class-Path>
                         </manifestEntries>
                     </archive>
+                    <includes>
+                        <!-- 打jar包时，只打包class文件 -->
+                        <include>**/*.class</include>
+                    </includes>
                 </configuration>
             </plugin>
 		</plugins>
