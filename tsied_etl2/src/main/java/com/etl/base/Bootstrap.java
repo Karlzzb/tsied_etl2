@@ -19,6 +19,7 @@ public class Bootstrap {
 		bootstrap.bootStrap();
 	}
 
+	@SuppressWarnings("resource")
 	private void bootStrap() {
 
 		FileSystemXmlApplicationContext ctx = new FileSystemXmlApplicationContext(//
