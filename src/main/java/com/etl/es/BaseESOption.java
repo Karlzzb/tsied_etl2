@@ -5,7 +5,6 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.util.Arrays;
@@ -36,7 +35,6 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.etl.utils.ElasticsearchUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -63,8 +61,6 @@ public class BaseESOption {
 			Settings settings = Settings.settingsBuilder().put("cluster.name", clusterName).build();
 			client = TransportClient.builder().settings(settings).build()
 					.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(esip), esport));
-
-			System.out.println(client);
 		} catch (Exception e) {
 			log.error("Elasticsearch connection failed", e);
 			closed();
@@ -330,20 +326,6 @@ public class BaseESOption {
 	 * @param indexType
 	 */
 	public void deleteByIndexType(String index, String indexType) {
-		/*
-		 * DeleteByQueryResponse deleteByQueryResponse = new
-		 * DeleteByQueryRequestBuilder(client, DeleteByQueryAction.INSTANCE)
-		 * .setIndices(index).setTypes(indexType).get();
-		 * deleteByQueryResponse.getHeaders();
-		 */
-		/*
-		 * 
-		 * 
-		 * DeleteByQueryResponse response = new DeleteByQueryRequestBuilder(
-		 * client, DeleteByQueryAction.INSTANCE).setIndices(index)
-		 * .setTypes(indexType).setSource("*").execute().actionGet();
-		 */
-
 		DeleteByQueryRequestBuilder requestBuilder = new DeleteByQueryRequestBuilder(client,
 				DeleteByQueryAction.INSTANCE);
 		QueryBuilder qb = matchAllQuery();
@@ -400,36 +382,9 @@ public class BaseESOption {
 				log.error("addMultiObjests failure");
 			}
 		}
-
 	}
 
 	public TransportClient getClient() {
 		return client;
-	}
-
-	/**
-	 * My Test
-	 * 
-	 * @param args
-	 * @throws JsonProcessingException
-	 * @throws IOException
-	 */
-	public static void main(String[] args) throws JsonProcessingException, IOException {
-		// BaseESOption myes = new BaseESOption("59.188.30.132", 9300,
-		// "elasticsearch");
-
-		// User user = new User(2, "test", 33);
-
-		// myes.addMultiObjests("test", "mytest", user);
-
-		// myes.deleteByIndexIds("test", "mytest", new
-		// String[]{"1","2","public int com.elk.entity.User.getId()"});
-
-		// myes.deleteByIndexType("test", "mytest");
-		// String source = ElasticsearchUtils.readSourceTemplate("mytest");
-
-		// SearchResponse sResponse = myes.execQuery(source, "logstash-*",
-		// Long.parseLong("1456765200000"),Long.parseLong("1459443599999"));
-
 	}
 }
