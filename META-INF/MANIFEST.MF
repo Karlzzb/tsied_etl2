@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-Version: 1.0.0
+Bundle-ManifestVersion: 2
+Bundle-Name: tsied_etl2 bundle
+Bundle-SymbolicName: com.etl.tsied_etl2
+Class-Path: 
+

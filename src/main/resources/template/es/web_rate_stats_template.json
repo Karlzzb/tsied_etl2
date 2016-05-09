@@ -1,0 +1,86 @@
+{
+  "size": 2,
+  "aggs": {
+    "date_aggs": {
+      "date_histogram": {
+        "field": "@timestamp",
+        "interval": "1d",
+        "time_zone": "Asia/Hong_Kong",
+        "min_doc_count": 1,
+        "extended_bounds": {
+          "min": 1456761600000,
+          "max": 1459439999999
+        }
+      },
+	  "aggs" : {
+	    "session_id_groups" : {
+	      "terms" : {
+	        "field" : "session_id.raw",
+	        "size": 0
+	      },
+	      "aggs" : {
+	        "unique_req_count": {
+			      "cardinality": {
+			        "field": "request.raw"
+			      }
+            },
+	        "first_request" : {
+	          "top_hits" : {
+	            "size" : 1,
+	            "_source" : {
+	              "includes" : [ "request", "refer","@timestamp" ],
+	              "excludes" : [ ]
+	            },
+	            "sort" : [ {
+	              "@timestamp" : {
+	                "order" : "asc"
+	              }
+	            } ]
+	          }
+	        },
+	        "last_request" : {
+	          "top_hits" : {
+	            "size" : 1,
+	            "_source" : {
+	              "includes" : [ "request","@timestamp" ],
+	              "excludes" : [ ]
+	            },
+	            "sort" : [ {
+	              "@timestamp" : {
+	                "order" : "desc"
+	              }
+	            } ]
+	          }
+	        }
+	      }
+	    }
+	  }
+	}
+  },
+  "query": {
+    "filtered": {
+      "query": {
+        "query_string": {
+          "analyze_wildcard": true,
+          "query": "*"
+        }
+      },
+      "filter": {
+        "bool": {
+          "must": [
+            {
+              "range": {
+                "@timestamp": {
+                  "gte": 1144,
+                  "lte": 9944,
+                  "format": "epoch_millis"
+                }
+              }
+            }
+          ],
+          "must_not": []
+        }
+      }
+    }
+  }
+}

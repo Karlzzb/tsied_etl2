@@ -1,0 +1,85 @@
+{
+  "query": {
+    "filtered": {
+      "query": {
+        "query_string": {
+          "query": "*",
+          "analyze_wildcard": true
+        }
+      },
+      "filter": {
+        "bool": {
+          "must": [
+            {
+              "query": {
+                "match": {
+                  "source_url.raw": {
+                    "query": "zqzm.sinyugame.com",
+                    "type": "phrase"
+                  }
+                }
+              }
+            },
+            {
+              "range": {
+                "statsDate": {
+                  "gte": 1451577600000,
+                  "lte": 1483199999999,
+                  "format": "epoch_millis"
+                }
+              }
+            }
+          ],
+          "must_not": []
+        }
+      }
+    }
+  },
+  "size": 0,
+  "aggs": {
+    "2": {
+      "date_histogram": {
+        "field": "statsDate",
+        "interval": "1d",
+        "time_zone": "Asia/Hong_Kong",
+        "min_doc_count": 1,
+        "extended_bounds": {
+          "min": 1451577600000,
+          "max": 1483199999999
+        }
+      },
+      "aggs": {
+        "1": {
+          "sum": {
+            "field": "pv"
+          }
+        },
+        "3": {
+          "sum": {
+            "field": "uv"
+          }
+        },
+        "4": {
+          "sum": {
+            "field": "ipStats"
+          }
+        },
+        "5": {
+          "sum": {
+            "field": "sessionStat"
+          }
+        },
+        "9": {
+          "sum": {
+            "field": "exitSessionCount"
+          }
+        },
+        "10": {
+          "sum": {
+            "field": "bounceSessionCount"
+          }
+        }
+      }
+    }
+  }
+}
