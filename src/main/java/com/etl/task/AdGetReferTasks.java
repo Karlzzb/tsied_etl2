@@ -26,11 +26,10 @@ public class AdGetReferTasks {
 
 	@Scheduled(cron = "0 0 1 * * ?")
 	public void adWwwGetReferStats() {
-		for (int i = 1; i < 2; i++) {
 
 			try {
 				Date today = DateUtils.getDateBegin(DateUtils.getCurrent());
-				Integer dateInterval = -i;
+				Integer dateInterval = -1;
 
 				String queryIndex = "www-*";
 
@@ -47,16 +46,15 @@ public class AdGetReferTasks {
 
 			log.info("Task adWwwGetReferTasks Complete!");
 
-		}
+		
 	}
 
 	@Scheduled(cron = "0 0 1 * * ?")
 	public void adNewsGetReferStats() {
-		for (int i = 1; i < 2; i++) {
 
 			try {
 				Date today = DateUtils.getDateBegin(DateUtils.getCurrent());
-				Integer dateInterval = -i;
+				Integer dateInterval = -1;
 
 				String queryIndex = "news-*";
 
@@ -73,6 +71,6 @@ public class AdGetReferTasks {
 
 			log.info("Task adNewsGetReferTasks Complete!");
 
-		}
+		
 	}
 }

@@ -164,7 +164,7 @@
  	<insert id="saverefer" parameterType="_pay">
  		insert ignore into all_stats.refer(
  		refer
- 		)values
+ 		) values
  		<foreach collection="list" item="item" index="index" separator="," > 
  			(
  			#{item.source_url}

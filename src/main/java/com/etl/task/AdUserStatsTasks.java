@@ -26,11 +26,10 @@ public class AdUserStatsTasks {
 
 	@Scheduled(cron = "0 10 1 * * ?")
 	public void adWWWUserStatsAllDaily() {
-		for (int i = 1; i < 2; i++) {
 
 			try {
 				Date today = DateUtils.getDateBegin(DateUtils.getCurrent());
-				Integer dateInterval = -i;
+				Integer dateInterval = -1;
 
 				String queryIndex = "www-*";
 
@@ -56,15 +55,14 @@ public class AdUserStatsTasks {
 
 			log.info("Task {index[www-*]}, adWWWUserStatsAllDailyTasks Complete!");
 
-		}
+		
 	}
 	@Scheduled(cron = "0 10 1 * * ?")
 	public void adNewsUserStatsAllDaily() {
-		for (int i = 1; i < 2; i++) {
 
 			try {
 				Date today = DateUtils.getDateBegin(DateUtils.getCurrent());
-				Integer dateInterval = -i;
+				Integer dateInterval = -1;
 
 				String queryIndex = "news-*";
 
@@ -90,6 +88,6 @@ public class AdUserStatsTasks {
 
 			log.info("Task {index[www-*]}, adNewsUserStatsAllDailyTasks Complete!");
 
-		}
+		
 	}
 }

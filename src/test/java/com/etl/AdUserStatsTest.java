@@ -51,95 +51,153 @@ public class AdUserStatsTest extends AbstractJUnit4SpringContextTests {
 
 	@Test
 	public void queryWwwTest() {
-		Date today = DateUtils.getDateBegin(DateUtils.getCurrent());
+		for (int i = 10; i > 0; i--) {
+			Date today = DateUtils.addDate(DateUtils.getCurrent(), Calendar.DATE,
+					-i);
+//			Date today = DateUtils.getDateBegin(DateUtils.getCurrent());
+			Integer dateInterval = -1;
 
-		Integer dateInterval = -3;
+			Long startDateTime = DateUtils.getDateBegin(DateUtils.addDate(today, Calendar.DATE,
+					dateInterval)).getTime();
+			System.out.println(startDateTime);
+			
+			Long endDateTime = DateUtils.getDateBegin(today).getTime();
+			
+			System.out.println(endDateTime);
+			
+			String id = DateUtils.formatDate(DateUtils.addDate(
+					DateUtils.getDateBegin(today),
+					Calendar.DATE, dateInterval));
 
-		Long startDateTime = DateUtils.addDate(today, Calendar.DATE, dateInterval).getTime();
+//			String startPayDateTime = DateUtils.formatDateTime(DateUtils
+//					.addDate(DateUtils.getDateBegin(DateUtils.getCurrent()),
+//							Calendar.DATE, dateInterval));
+//			String endPayDateTime = DateUtils.formatDateTime(DateUtils.addDate(
+//					DateUtils.getDateEnd(DateUtils.getCurrent()),
+//					Calendar.DATE, dateInterval));
+			
+			String startPayDateTime = DateUtils.formatDateTime(DateUtils
+					.addDate(DateUtils.getDateBegin(today),
+							Calendar.DATE, dateInterval));
+			System.out.println(startPayDateTime);
+			String endPayDateTime = DateUtils.formatDateTime(DateUtils.addDate(
+					DateUtils.getDateEnd(today),
+					Calendar.DATE, dateInterval));
+			System.out.println(endPayDateTime);
+			
 
-		Long endDateTime = DateUtils.getDateBegin(today).getTime();
+			String index = "www-*";
+			Integer project = 2;
+			String saveIndex = "tmp_stats";
+			String saveIndexType = "www_stats";
+			String projectName = "u";
+			String saveSumIndex = "pay_s";
+			String saveSumIndexType = "pay_game";
 
-		String id = DateUtils.formatDate(DateUtils.addDate(DateUtils.getDateBegin(DateUtils.getCurrent()),
-				Calendar.DATE, dateInterval));
+			adGetReferStatsService.adGetReferStats(index, startDateTime,
+					endDateTime);
 
-		String startPayDateTime = DateUtils.formatDateTime(DateUtils.addDate(
-				DateUtils.getDateBegin(DateUtils.getCurrent()), Calendar.DATE, dateInterval));
-		String endPayDateTime = DateUtils.formatDateTime(DateUtils.addDate(
-				DateUtils.getDateEnd(DateUtils.getCurrent()), Calendar.DATE, dateInterval));
+			aduserStatsService.aduserStatsAllDaily(index, project,
+					startDateTime, endDateTime);
+			// aduserStatsService.aduserStatsAllDaily("news-*", 3,
+			// startDateTime,
+			// endDateTime);
+			aduserStatsService.aduserSpeacilStats(index, project,
+					startDateTime, endDateTime);
+			// aduserStatsService.aduserSpeacilStats("news-*", 3, startDateTime,
+			// endDateTime);
 
-		String index = "www-*";
-		Integer project = 2;
-		String saveIndex = "tmp_stats";
-		String saveIndexType = "www_stats";
-		String projectName = "u";
-		String saveSumIndex = "pay_s";
-		String saveSumIndexType = "pay_game";
-
-		adGetReferStatsService.adGetReferStats(index, startDateTime, endDateTime);
-
-		aduserStatsService.aduserStatsAllDaily(index, project, startDateTime, endDateTime);
-		// aduserStatsService.aduserStatsAllDaily("news-*", 3, startDateTime,
-		// endDateTime);
-		aduserStatsService.aduserSpeacilStats(index, project, startDateTime, endDateTime);
-		// aduserStatsService.aduserSpeacilStats("news-*", 3, startDateTime,
-		// endDateTime);
-
-		adPayStatsServiceImpl.regUserCnt(id, project, startPayDateTime, endPayDateTime, saveIndex, saveIndexType);
-		adPayStatsServiceImpl.loginUserCnt(id, project, startPayDateTime, endPayDateTime, saveIndex, saveIndexType);
-		adPayStatsServiceImpl.ydRetRate(id, project, startPayDateTime, endPayDateTime, saveIndex, saveIndexType);
-		adPayStatsServiceImpl.tdRetRate(id, project, startPayDateTime, endPayDateTime, saveIndex, saveIndexType);
-		adPayStatsServiceImpl.sdRetRate(id, project, startPayDateTime, endPayDateTime, saveIndex, saveIndexType);
-		adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName, startPayDateTime, endPayDateTime, saveSumIndex,
-				saveSumIndexType);
-		adPayStatsServiceImpl.SumLoginUser(id, project, startPayDateTime, endPayDateTime, saveSumIndex,
-				saveSumIndexType);
-
+			adPayStatsServiceImpl.regUserCnt(id, project, startPayDateTime,
+					endPayDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.loginUserCnt(id, project, startPayDateTime,
+					endPayDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.ydRetRate(id, project, startPayDateTime,
+					endPayDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.tdRetRate(id, project, startPayDateTime,
+					endPayDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.sdRetRate(id, project, startPayDateTime,
+					endPayDateTime, saveIndex, saveIndexType);
+//			adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName,
+//					startPayDateTime, endPayDateTime, saveSumIndex,
+//					saveSumIndexType);
+//			adPayStatsServiceImpl.SumLoginUser(id, project, startPayDateTime,
+//					endPayDateTime, saveSumIndex, saveSumIndexType);
+		}
 	}
 
 	@Test
 	public void queryNewsTest() {
-		Date today = DateUtils.getDateBegin(DateUtils.getCurrent());
+		for (int i = 10; i > 0; i--) {
+			Date today = DateUtils.addDate(DateUtils.getCurrent(), Calendar.DATE,
+					-i);
+//			Date today = DateUtils.getDateBegin(DateUtils.getCurrent());
+			Integer dateInterval = -1;
 
-		Integer dateInterval = -3;
+//			Long startDateTime = DateUtils.addDate(today, Calendar.DATE,
+//					dateInterval).getTime();
+			
+			Long startDateTime = DateUtils.getDateBegin(DateUtils.addDate(today, Calendar.DATE,
+					dateInterval)).getTime();
 
-		Long startDateTime = DateUtils.addDate(today, Calendar.DATE, dateInterval).getTime();
+			Long endDateTime = DateUtils.getDateBegin(today).getTime();
 
-		Long endDateTime = DateUtils.getDateBegin(today).getTime();
+			String id = DateUtils.formatDate(DateUtils.addDate(
+					DateUtils.getDateBegin(today),
+					Calendar.DATE, dateInterval));
+//
+//			String startPayDateTime = DateUtils.formatDateTime(DateUtils
+//					.addDate(DateUtils.getDateBegin(DateUtils.getCurrent()),
+//							Calendar.DATE, dateInterval));
+//			String endPayDateTime = DateUtils.formatDateTime(DateUtils.addDate(
+//					DateUtils.getDateEnd(DateUtils.getCurrent()),
+//					Calendar.DATE, dateInterval));
+			
+			String startPayDateTime = DateUtils.formatDateTime(DateUtils
+					.addDate(DateUtils.getDateBegin(today),
+							Calendar.DATE, dateInterval));
+			System.out.println(startPayDateTime);
+			String endPayDateTime = DateUtils.formatDateTime(DateUtils.addDate(
+					DateUtils.getDateEnd(today),
+					Calendar.DATE, dateInterval));
+			System.out.println(endPayDateTime);
 
-		String id = DateUtils.formatDate(DateUtils.addDate(DateUtils.getDateBegin(DateUtils.getCurrent()),
-				Calendar.DATE, dateInterval));
+			String index = "news-*";
+			Integer project = 3;
+			String saveIndex = "news_stats";
+			String saveIndexType = "news_stats";
+			String projectName = "u";
+			String saveSumIndex = "pay_news";
+			String saveSumIndexType = "pay_news";
 
-		String startPayDateTime = DateUtils.formatDateTime(DateUtils.addDate(
-				DateUtils.getDateBegin(DateUtils.getCurrent()), Calendar.DATE, dateInterval));
-		String endPayDateTime = DateUtils.formatDateTime(DateUtils.addDate(
-				DateUtils.getDateEnd(DateUtils.getCurrent()), Calendar.DATE, dateInterval));
+			adGetReferStatsService.adGetReferStats(index, startDateTime,
+					endDateTime);
 
-		String index = "news-*";
-		Integer project = 3;
-		String saveIndex = "news_stats";
-		String saveIndexType = "news_stats";
-		String projectName = "u";
-		String saveSumIndex = "pay_news";
-		String saveSumIndexType = "pay_news";
+			aduserStatsService.aduserStatsAllDaily(index, project,
+					startDateTime, endDateTime);
+			// aduserStatsService.aduserStatsAllDaily("news-*", 3,
+			// startDateTime,
+			// endDateTime);
+			aduserStatsService.aduserSpeacilStats(index, project,
+					startDateTime, endDateTime);
+			// aduserStatsService.aduserSpeacilStats("news-*", 3, startDateTime,
+			// endDateTime);
 
-		adGetReferStatsService.adGetReferStats(index, startDateTime, endDateTime);
-
-		aduserStatsService.aduserStatsAllDaily(index, project, startDateTime, endDateTime);
-		// aduserStatsService.aduserStatsAllDaily("news-*", 3, startDateTime,
-		// endDateTime);
-		aduserStatsService.aduserSpeacilStats(index, project, startDateTime, endDateTime);
-		// aduserStatsService.aduserSpeacilStats("news-*", 3, startDateTime,
-		// endDateTime);
-
-		adPayStatsServiceImpl.regUserCnt(id, project, startPayDateTime, endPayDateTime, saveIndex, saveIndexType);
-		adPayStatsServiceImpl.loginUserCnt(id, project, startPayDateTime, endPayDateTime, saveIndex, saveIndexType);
-		adPayStatsServiceImpl.ydRetRate(id, project, startPayDateTime, endPayDateTime, saveIndex, saveIndexType);
-		adPayStatsServiceImpl.tdRetRate(id, project, startPayDateTime, endPayDateTime, saveIndex, saveIndexType);
-		adPayStatsServiceImpl.sdRetRate(id, project, startPayDateTime, endPayDateTime, saveIndex, saveIndexType);
-		adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName, startPayDateTime, endPayDateTime, saveSumIndex,
-				saveSumIndexType);
-		adPayStatsServiceImpl.SumLoginUser(id, project, startPayDateTime, endPayDateTime, saveSumIndex,
-				saveSumIndexType);
+			adPayStatsServiceImpl.regUserCnt(id, project, startPayDateTime,
+					endPayDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.loginUserCnt(id, project, startPayDateTime,
+					endPayDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.ydRetRate(id, project, startPayDateTime,
+					endPayDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.tdRetRate(id, project, startPayDateTime,
+					endPayDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.sdRetRate(id, project, startPayDateTime,
+					endPayDateTime, saveIndex, saveIndexType);
+//			adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName,
+//					startPayDateTime, endPayDateTime, saveSumIndex,
+//					saveSumIndexType);
+//			adPayStatsServiceImpl.SumLoginUser(id, project, startPayDateTime,
+//					endPayDateTime, saveSumIndex, saveSumIndexType);
+		}
 
 	}
 

@@ -35,8 +35,8 @@ public class AdGetRefer extends AbstractJUnit4SpringContextTests {
 	@Test
 	public void getReferQueryTest() {
 
-		adGetReferStatsService.adGetReferStats("www-*", Long.parseLong("1461686400000"),
-				Long.parseLong("1461772799999"));
+		adGetReferStatsService.adGetReferStats("www-*", Long.parseLong("1462636800000"),
+				Long.parseLong("1462723199999"));
 	}
 
 }

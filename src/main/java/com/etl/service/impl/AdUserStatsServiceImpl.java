@@ -72,16 +72,17 @@ public class AdUserStatsServiceImpl {
 		// adPay.setRegTimeEnd("2016-03-30 23:59:59");
 
 		try {
-			SearchResponse response = apESOption.execQuery(adUserStatsTemplate, queryIndex, startDate, endDate);
+			SearchResponse response = apESOption.execQuerySimple(adUserStatsTemplate, queryIndex, startDate, endDate);
 
-			log.debug(response.toString());
-
+//			log.debug(response.toString());
+//			System.out.println(startDate);
 			Histogram agg = response.getAggregations().get("date_aggs");
+//			log.debug(agg.toString());
 
 			for (Histogram.Bucket dateEntry : agg.getBuckets()) {
 				DateTime statsDate = (DateTime) dateEntry.getKey();
-				System.out.println(statsDate.toDate());
-				System.out.println(TimeZone.getDefault().getID());
+//				System.out.println(statsDate.toDate());
+//				System.out.println(TimeZone.getDefault().getID());
 				log.info("date [{}]", statsDate);
 				Terms domainSgg = dateEntry.getAggregations().get("ad_domain");
 
@@ -89,7 +90,7 @@ public class AdUserStatsServiceImpl {
 				// For each entry
 				for (Terms.Bucket domainEntry : domainSgg.getBuckets()) {
 					String domain = (String) domainEntry.getKey();
-					// System.out.println(domain);
+//					 System.out.println(domain);
 
 					Terms sessionSgg = domainEntry.getAggregations().get("session_stats");
 
@@ -103,8 +104,9 @@ public class AdUserStatsServiceImpl {
 							// System.out.println(user);
 							// 如果是真实数据需要判断user等不等于-1，等于-1就是游客，不等于的存入数据库
 							if (user.compareTo("-1") != 0) {
-								System.out.println(user);
-								System.out.println(statsDate.toDate());
+								log.debug(user);
+//								System.out.println(user);
+//								System.out.println(statsDate.toDate());
 								adPay.setUid(Integer.parseInt(user));
 								adPay.setSource_url(domain);
 								adPay.setInittime(statsDate.toDate());
@@ -125,12 +127,16 @@ public class AdUserStatsServiceImpl {
 				}
 				// System.out.println(DateUtils.formatDateTime(DateUtils.getDateBegin(statsDate.toDate())));
 				// System.out.println(DateUtils.formatDateTime(DateUtils.getDateEnd(statsDate.toDate())));
+				if (saveStats.size() < 1){
+					return;
+				}
 				ipayService.saveuser(saveStats);
 				AdPayStats updateAdPay = new AdPayStats();
 				updateAdPay.setTimeStart(DateUtils.formatDateTime(DateUtils.getDateBegin(statsDate.toDate())));
 				updateAdPay.setTimeEnd(DateUtils.formatDateTime(DateUtils.getDateEnd(statsDate.toDate())));
 				updateAdPay.setProject(project);
 				ipayService.updateLoginUser(updateAdPay);
+				
 			}
 		} catch (Exception e) {
 			log.error("AduserStatsAllDaily Insert or Update failed!", e);
@@ -150,7 +156,7 @@ public class AdUserStatsServiceImpl {
 			SearchResponse response = apESOption.execQuerySimple(adUserSpeacilStatsTemplate, queryIndex, startDate,
 					endDate);
 
-			log.debug(response.toString());
+//			log.debug(response.toString());
 
 			Histogram agg = response.getAggregations().get("date_aggs");
 
@@ -165,13 +171,13 @@ public class AdUserStatsServiceImpl {
 				// For each entry
 				for (Terms.Bucket domainEntry : domainSgg.getBuckets()) {
 					String domain = (String) domainEntry.getKey();
-					System.out.println(domain);
+//					System.out.println(domain);
 
 					Terms pathSgg = domainEntry.getAggregations().get("ad_path");
 
 					for (Terms.Bucket pathEntry : pathSgg.getBuckets()) {
 						String path = (String) pathEntry.getKey();
-						System.out.println(path);
+//						System.out.println(path);
 						Terms userSgg = pathEntry.getAggregations().get("user_stats");
 						//
 						for (Terms.Bucket userEntry : userSgg.getBuckets()) {
@@ -180,8 +186,8 @@ public class AdUserStatsServiceImpl {
 							// System.out.println(user);
 							// 如果是真实数据需要判断user等不等于-1，等于-1就是游客，不等于的存入数据库
 							if (user.compareTo("-1") != 0) {
-								System.out.println(user);
-								System.out.println(statsDate.toDate());
+//								System.out.println(user);
+//								System.out.println(statsDate.toDate());
 								adPay.setUid(Integer.parseInt(user));
 								adPay.setSource_url(domain + path);
 								adPay.setInittime(statsDate.toDate());
@@ -202,6 +208,9 @@ public class AdUserStatsServiceImpl {
 				}
 				// System.out.println(DateUtils.formatDateTime(DateUtils.getDateBegin(statsDate.toDate())));
 				// System.out.println(DateUtils.formatDateTime(DateUtils.getDateEnd(statsDate.toDate())));
+				if (saveStats.size() < 1){
+					return;
+				}
 				ipayService.saveuser(saveStats);
 				AdPayStats updateAdPay = new AdPayStats();
 				updateAdPay.setTimeStart(DateUtils.formatDateTime(DateUtils.getDateBegin(statsDate.toDate())));

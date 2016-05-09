@@ -24,115 +24,112 @@ public class AdPayStatsTasks {
 
 	@Scheduled(cron = "0 20 1 * * ?")
 	public void adWwwUserPayStatsAllDaily() {
-		for (int i = 1; i < 2; i++) {
-			try {
 
-				Integer dateInterval = -i;
-				String id = DateUtils.formatDate(DateUtils.addDate(
-						DateUtils.getDateBegin(DateUtils.getCurrent()),
-						Calendar.DATE, dateInterval));
+		try {
 
-				String startDateTime = DateUtils.formatDateTime(DateUtils
-						.addDate(
-								DateUtils.getDateBegin(DateUtils.getCurrent()),
-								Calendar.DATE, dateInterval));
-				String endDateTime = DateUtils.formatDateTime(DateUtils
-						.addDate(DateUtils.getDateEnd(DateUtils.getCurrent()),
-								Calendar.DATE, dateInterval));
+			Integer dateInterval = -1;
+			String id = DateUtils.formatDate(DateUtils.addDate(
+					DateUtils.getDateBegin(DateUtils.getCurrent()),
+					Calendar.DATE, dateInterval));
 
-				Integer project = 2;
-				String saveIndex = "tmp_stats";
-				String saveIndexType = "www_stats";
-				String projectName = "u";
+			String startDateTime = DateUtils.formatDateTime(DateUtils.addDate(
+					DateUtils.getDateBegin(DateUtils.getCurrent()),
+					Calendar.DATE, dateInterval));
+			String endDateTime = DateUtils.formatDateTime(DateUtils.addDate(
+					DateUtils.getDateEnd(DateUtils.getCurrent()),
+					Calendar.DATE, dateInterval));
 
-				// adPayStatsServiceImpl.regUserPayCnt(id, project,
-				// startDateTime,
-				// endDateTime, saveIndex, saveIndexType);
-				// adPayStatsServiceImpl.loginUserPayCnt(id, project,
-				// startDateTime,
-				// endDateTime, saveIndex, saveIndexType);
-				// adPayStatsServiceImpl.payUserCnt(id, project, startDateTime,
-				// endDateTime, saveIndex, saveIndexType);
-				// adPayStatsServiceImpl.payCnt(id, project, startDateTime,
-				// endDateTime,
-				// saveIndex, saveIndexType);
-				adPayStatsServiceImpl.regUserCnt(id, project, startDateTime,
-						endDateTime, saveIndex, saveIndexType);
-				adPayStatsServiceImpl.loginUserCnt(id, project, startDateTime,
-						endDateTime, saveIndex, saveIndexType);
-				adPayStatsServiceImpl.ydRetRate(id, project, startDateTime,
-						endDateTime, saveIndex, saveIndexType);
-				adPayStatsServiceImpl.tdRetRate(id, project, startDateTime,
-						endDateTime, saveIndex, saveIndexType);
-				adPayStatsServiceImpl.sdRetRate(id, project, startDateTime,
-						endDateTime, saveIndex, saveIndexType);
-				adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName,
-						startDateTime, endDateTime, saveIndex, saveIndexType);
-				adPayStatsServiceImpl.SumLoginUser(id, project, startDateTime,
-						endDateTime, saveIndex, saveIndexType);
-			} catch (Exception e) {
-				log.error("Task  adWwwUserPayStatsAllDailyTasks failed!", e);
-				return;
-			}
+			Integer project = 2;
+			String saveIndex = "tmp_stats";
+			String saveIndexType = "www_stats";
+			String projectName = "u";
 
-			log.info("Task adWwwUserPayStatsAllDailyTasks Complete!");
+			// adPayStatsServiceImpl.regUserPayCnt(id, project,
+			// startDateTime,
+			// endDateTime, saveIndex, saveIndexType);
+			// adPayStatsServiceImpl.loginUserPayCnt(id, project,
+			// startDateTime,
+			// endDateTime, saveIndex, saveIndexType);
+			// adPayStatsServiceImpl.payUserCnt(id, project, startDateTime,
+			// endDateTime, saveIndex, saveIndexType);
+			// adPayStatsServiceImpl.payCnt(id, project, startDateTime,
+			// endDateTime,
+			// saveIndex, saveIndexType);
+			adPayStatsServiceImpl.regUserCnt(id, project, startDateTime,
+					endDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.loginUserCnt(id, project, startDateTime,
+					endDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.ydRetRate(id, project, startDateTime,
+					endDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.tdRetRate(id, project, startDateTime,
+					endDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.sdRetRate(id, project, startDateTime,
+					endDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName,
+					startDateTime, endDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.SumLoginUser(id, project, startDateTime,
+					endDateTime, saveIndex, saveIndexType);
+		} catch (Exception e) {
+			log.error("Task  adWwwUserPayStatsAllDailyTasks failed!", e);
+			return;
 		}
+
+		log.info("Task adWwwUserPayStatsAllDailyTasks Complete!");
 	}
 
 	@Scheduled(cron = "0 20 1 * * ?")
 	public void adNewsUserPayStatsAllDaily() {
-		for (int i = 1; i < 2; i++) {
-			try {
 
-				Integer dateInterval = -i;
-				String id = DateUtils.formatDate(DateUtils.addDate(
-						DateUtils.getDateBegin(DateUtils.getCurrent()),
-						Calendar.DATE, dateInterval));
+		try {
 
-				String startDateTime = DateUtils.formatDateTime(DateUtils
-						.addDate(
-								DateUtils.getDateBegin(DateUtils.getCurrent()),
-								Calendar.DATE, dateInterval));
-				String endDateTime = DateUtils.formatDateTime(DateUtils
-						.addDate(DateUtils.getDateEnd(DateUtils.getCurrent()),
-								Calendar.DATE, dateInterval));
+			Integer dateInterval = -1;
+			String id = DateUtils.formatDate(DateUtils.addDate(
+					DateUtils.getDateBegin(DateUtils.getCurrent()),
+					Calendar.DATE, dateInterval));
 
-				Integer project = 3;
-				String saveIndex = "news_stats";
-				String saveIndexType = "news_stats";
-				String projectName = "u";
+			String startDateTime = DateUtils.formatDateTime(DateUtils.addDate(
+					DateUtils.getDateBegin(DateUtils.getCurrent()),
+					Calendar.DATE, dateInterval));
+			String endDateTime = DateUtils.formatDateTime(DateUtils.addDate(
+					DateUtils.getDateEnd(DateUtils.getCurrent()),
+					Calendar.DATE, dateInterval));
 
-				// adPayStatsServiceImpl.regUserPayCnt(id, project,
-				// startDateTime,
-				// endDateTime, saveIndex, saveIndexType);
-				// adPayStatsServiceImpl.loginUserPayCnt(id, project,
-				// startDateTime,
-				// endDateTime, saveIndex, saveIndexType);
-				// adPayStatsServiceImpl.payUserCnt(id, project, startDateTime,
-				// endDateTime, saveIndex, saveIndexType);
-				// adPayStatsServiceImpl.payCnt(id, project, startDateTime,
-				// endDateTime,
-				// saveIndex, saveIndexType);
-				adPayStatsServiceImpl.regUserCnt(id, project, startDateTime,
-						endDateTime, saveIndex, saveIndexType);
-				adPayStatsServiceImpl.loginUserCnt(id, project, startDateTime,
-						endDateTime, saveIndex, saveIndexType);
-				adPayStatsServiceImpl.ydRetRate(id, project, startDateTime,
-						endDateTime, saveIndex, saveIndexType);
-				adPayStatsServiceImpl.tdRetRate(id, project, startDateTime,
-						endDateTime, saveIndex, saveIndexType);
-				adPayStatsServiceImpl.sdRetRate(id, project, startDateTime,
-						endDateTime, saveIndex, saveIndexType);
-				adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName,
-						startDateTime, endDateTime, saveIndex, saveIndexType);
-				adPayStatsServiceImpl.SumLoginUser(id, project, startDateTime,
-						endDateTime, saveIndex, saveIndexType);
-			} catch (Exception e) {
-				log.error("Task  adNewsUserPayStatsAllDailyTasks failed!", e);
-				return;
-			}
+			Integer project = 3;
+			String saveIndex = "news_stats";
+			String saveIndexType = "news_stats";
+			String projectName = "u";
 
-			log.info("Task adNewsUserPayStatsAllDailyTasks Complete!");
+			// adPayStatsServiceImpl.regUserPayCnt(id, project,
+			// startDateTime,
+			// endDateTime, saveIndex, saveIndexType);
+			// adPayStatsServiceImpl.loginUserPayCnt(id, project,
+			// startDateTime,
+			// endDateTime, saveIndex, saveIndexType);
+			// adPayStatsServiceImpl.payUserCnt(id, project, startDateTime,
+			// endDateTime, saveIndex, saveIndexType);
+			// adPayStatsServiceImpl.payCnt(id, project, startDateTime,
+			// endDateTime,
+			// saveIndex, saveIndexType);
+			adPayStatsServiceImpl.regUserCnt(id, project, startDateTime,
+					endDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.loginUserCnt(id, project, startDateTime,
+					endDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.ydRetRate(id, project, startDateTime,
+					endDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.tdRetRate(id, project, startDateTime,
+					endDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.sdRetRate(id, project, startDateTime,
+					endDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName,
+					startDateTime, endDateTime, saveIndex, saveIndexType);
+			adPayStatsServiceImpl.SumLoginUser(id, project, startDateTime,
+					endDateTime, saveIndex, saveIndexType);
+		} catch (Exception e) {
+			log.error("Task  adNewsUserPayStatsAllDailyTasks failed!", e);
+			return;
 		}
+
+		log.info("Task adNewsUserPayStatsAllDailyTasks Complete!");
 	}
+
 }

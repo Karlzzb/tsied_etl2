@@ -161,7 +161,7 @@
 	
 	<aop:aspectj-autoproxy/>
 	<!-- Spring task configuration -->
-   <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>
-   <task:scheduler id="qbScheduler" pool-size="50"/>
+   <!--  <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>
+   <task:scheduler id="qbScheduler" pool-size="50"/>-->
 	
 </beans> 
