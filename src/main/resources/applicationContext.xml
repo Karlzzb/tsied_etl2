@@ -31,8 +31,19 @@
 		</property>
 	</bean>
 	
-	<bean id="parentDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"/>  
-	
+	<!-- <bean id="parentDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"/>  -->
+	<bean id="parentDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+              <property name="maxActive">
+                     <value>50</value>
+              </property>
+              <property name="maxIdle">
+                     <value>2</value>
+              </property>
+              <property name="maxWait">
+                     <value>200</value>
+              </property>
+    </bean>
+    	
 	<bean id="ds1" parent="parentDataSource">  
         <property name="driverClassName">
 			<value>${dataSource.driverClassName}</value>
