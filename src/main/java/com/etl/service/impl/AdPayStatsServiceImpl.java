@@ -249,7 +249,7 @@ public class AdPayStatsServiceImpl {
 		for (AdPayStats adPayStats : payList) {
 			adPayStats.setId(adPayStats.getId() + "-local-" + project);
 			adPayStats.setProject(project);
-			adPayStats.setSource_url("local");
+//			adPayStats.setSource_url("local");
 			adPayStats.setSumloginusercnt(adPayStats.getSumloginusercnt());
 			adPayStats.setStatsDate(DateUtils.parseDateTime(StartTime));
 			saveStats.add(adPayStats);
