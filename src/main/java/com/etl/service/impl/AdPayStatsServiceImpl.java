@@ -22,86 +22,86 @@ public class AdPayStatsServiceImpl {
 	@Autowired
 	private BaseESOption baseESOption;
 
-	private void setPayValue(List<AdPayStats> saveStats, AdPayStats adPayStats) {
+	private void setPayValue(List<AdPayStats> saveStats, AdPayStats adPayStats, String startPayDateTime) {
 		adPayStats.setId(adPayStats.getId() + "-" + adPayStats.getSource_url());
-		adPayStats.setStatsDate(DateUtils.getCurrent());
+		adPayStats.setStatsDate(DateUtils.parseDateTime(startPayDateTime));
 		adPayStats.setProject(adPayStats.getProject());
 		saveStats.add(adPayStats);
 	}
 
-	public void regUserPayCnt(String id, Integer project, String StartTime, String EndTime, String saveIndex,
-			String saveIndexType) {
-		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
-		DataSourceSwitch.setDataSourceType(MutilDataSource.U_LEAJOY);
+//	public void regUserPayCnt(String id, Integer project, String StartTime, String EndTime, String saveIndex,
+//			String saveIndexType) {
+//		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
+//		DataSourceSwitch.setDataSourceType(MutilDataSource.U_LEAJOY);
+//
+//		AdPayStats adPay = new AdPayStats();
+//		adPay.setId(id);
+//		adPay.setRegTimeStart(StartTime);
+//		adPay.setRegTimeEnd(EndTime);
+//		adPay.setProject(project);
+//		List<AdPayStats> payList = ipayService.findPayByPay(adPay);
+//		for (AdPayStats adPayStats : payList) {
+//			setPayValue(saveStats, adPayStats);
+//		}
+//
+//		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
+//	}
+//
+//	public void loginUserPayCnt(String id, Integer project, String StartTime, String EndTime, String saveIndex,
+//			String saveIndexType) {
+//		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
+//		DataSourceSwitch.setDataSourceType(MutilDataSource.U_LEAJOY);
+//
+//		AdPayStats adPay = new AdPayStats();
+//		adPay.setId(id);
+//		adPay.setLoginTimeStart(StartTime);
+//		adPay.setLoginTimeEnd(EndTime);
+//		adPay.setProject(project);
+//		List<AdPayStats> payList = ipayService.findLoginUserByLoginUser(adPay);
+//		for (AdPayStats adPayStats : payList) {
+//			setPayValue(saveStats, adPayStats);
+//		}
+//
+//		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
+//	}
 
-		AdPayStats adPay = new AdPayStats();
-		adPay.setId(id);
-		adPay.setRegTimeStart(StartTime);
-		adPay.setRegTimeEnd(EndTime);
-		adPay.setProject(project);
-		List<AdPayStats> payList = ipayService.findPayByPay(adPay);
-		for (AdPayStats adPayStats : payList) {
-			setPayValue(saveStats, adPayStats);
-		}
+//	public void payUserCnt(String id, Integer project, String StartTime, String EndTime, String saveIndex,
+//			String saveIndexType) {
+//		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
+//		DataSourceSwitch.setDataSourceType(MutilDataSource.U_LEAJOY);
+//
+//		AdPayStats adPay = new AdPayStats();
+//		adPay.setId(id);
+//		adPay.setTimeStart(StartTime);
+//		adPay.setTimeEnd(EndTime);
+//		adPay.setProject(project);
+//		List<AdPayStats> payList = ipayService.findUserCntByLoginUserCnt(adPay);
+//		for (AdPayStats adPayStats : payList) {
+//			setPayValue(saveStats, adPayStats);
+//		}
+//
+//		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
+//	}
+//
+//	public void payCnt(String id, Integer project, String StartTime, String EndTime, String saveIndex,
+//			String saveIndexType) {
+//		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
+//		DataSourceSwitch.setDataSourceType(MutilDataSource.U_LEAJOY);
+//
+//		AdPayStats adPay = new AdPayStats();
+//		adPay.setId(id);
+//		adPay.setTimeStart(StartTime);
+//		adPay.setTimeEnd(EndTime);
+//		adPay.setProject(project);
+//		List<AdPayStats> payList = ipayService.findPayCntByPayCnt(adPay);
+//		for (AdPayStats adPayStats : payList) {
+//			setPayValue(saveStats, adPayStats);
+//		}
+//
+//		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
+//	}
 
-		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
-	}
-
-	public void loginUserPayCnt(String id, Integer project, String StartTime, String EndTime, String saveIndex,
-			String saveIndexType) {
-		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
-		DataSourceSwitch.setDataSourceType(MutilDataSource.U_LEAJOY);
-
-		AdPayStats adPay = new AdPayStats();
-		adPay.setId(id);
-		adPay.setLoginTimeStart(StartTime);
-		adPay.setLoginTimeEnd(EndTime);
-		adPay.setProject(project);
-		List<AdPayStats> payList = ipayService.findLoginUserByLoginUser(adPay);
-		for (AdPayStats adPayStats : payList) {
-			setPayValue(saveStats, adPayStats);
-		}
-
-		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
-	}
-
-	public void payUserCnt(String id, Integer project, String StartTime, String EndTime, String saveIndex,
-			String saveIndexType) {
-		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
-		DataSourceSwitch.setDataSourceType(MutilDataSource.U_LEAJOY);
-
-		AdPayStats adPay = new AdPayStats();
-		adPay.setId(id);
-		adPay.setTimeStart(StartTime);
-		adPay.setTimeEnd(EndTime);
-		adPay.setProject(project);
-		List<AdPayStats> payList = ipayService.findUserCntByLoginUserCnt(adPay);
-		for (AdPayStats adPayStats : payList) {
-			setPayValue(saveStats, adPayStats);
-		}
-
-		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
-	}
-
-	public void payCnt(String id, Integer project, String StartTime, String EndTime, String saveIndex,
-			String saveIndexType) {
-		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
-		DataSourceSwitch.setDataSourceType(MutilDataSource.U_LEAJOY);
-
-		AdPayStats adPay = new AdPayStats();
-		adPay.setId(id);
-		adPay.setTimeStart(StartTime);
-		adPay.setTimeEnd(EndTime);
-		adPay.setProject(project);
-		List<AdPayStats> payList = ipayService.findPayCntByPayCnt(adPay);
-		for (AdPayStats adPayStats : payList) {
-			setPayValue(saveStats, adPayStats);
-		}
-
-		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
-	}
-
-	public void regUserCnt(String id, Integer project, String StartTime, String EndTime, String saveIndex,
+	public void regUserCnt(String id, String startPayDateTime, Integer project, String StartTime, String EndTime, String saveIndex,
 			String saveIndexType) {
 		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
 		DataSourceSwitch.setDataSourceType(MutilDataSource.U_LEAJOY);
@@ -114,13 +114,13 @@ public class AdPayStatsServiceImpl {
 		List<AdPayStats> payList = ipayService.findRegUserCntByRegUserCnt(adPay);
 		for (AdPayStats adPayStats : payList) {
 
-			setPayValue(saveStats, adPayStats);
+			setPayValue(saveStats, adPayStats, startPayDateTime);
 		}
 
 		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
 	}
 
-	public void loginUserCnt(String id, Integer project, String StartTime, String EndTime, String saveIndex,
+	public void loginUserCnt(String id, String startPayDateTime, Integer project, String StartTime, String EndTime, String saveIndex,
 			String saveIndexType) {
 		// AdPayStats pay = new AdPayStats();
 		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
@@ -133,13 +133,13 @@ public class AdPayStatsServiceImpl {
 		adPay.setProject(project);
 		List<AdPayStats> payList = ipayService.findLoginUserCntByLoginUserCnt(adPay);
 		for (AdPayStats adPayStats : payList) {
-			setPayValue(saveStats, adPayStats);
+			setPayValue(saveStats, adPayStats, startPayDateTime);
 		}
 
 		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
 	}
 
-	public void ydRetRate(String id, Integer project, String StartTime, String EndTime, String saveIndex,
+	public void ydRetRate(String id, String startPayDateTime, Integer project, String StartTime, String EndTime, String saveIndex,
 			String saveIndexType) {
 		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
 		DataSourceSwitch.setDataSourceType(MutilDataSource.U_LEAJOY);
@@ -156,14 +156,14 @@ public class AdPayStatsServiceImpl {
 			adPayStats.setYdrate(adPayStats.getRate());
 			adPayStats.setSource_url(adPayStats.getSource_url());
 			adPayStats.setProject(adPayStats.getProject());
-			adPayStats.setStatsDate(DateUtils.getCurrent());
+			adPayStats.setStatsDate(DateUtils.parseDateTime(startPayDateTime));
 			saveStats.add(adPayStats);
 		}
 
 		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
 	}
 
-	public void tdRetRate(String id, Integer project, String StartTime, String EndTime, String saveIndex,
+	public void tdRetRate(String id, String startPayDateTime, Integer project, String StartTime, String EndTime, String saveIndex,
 			String saveIndexType) {
 		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
 		DataSourceSwitch.setDataSourceType(MutilDataSource.U_LEAJOY);
@@ -180,14 +180,14 @@ public class AdPayStatsServiceImpl {
 			adPayStats.setTdrate(adPayStats.getRate());
 			adPayStats.setSource_url(adPayStats.getSource_url());
 			adPayStats.setProject(adPayStats.getProject());
-			adPayStats.setStatsDate(DateUtils.getCurrent());
+			adPayStats.setStatsDate(DateUtils.parseDateTime(startPayDateTime));
 			saveStats.add(adPayStats);
 		}
 
 		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
 	}
 
-	public void sdRetRate(String id, Integer project, String StartTime, String EndTime, String saveIndex,
+	public void sdRetRate(String id, String startPayDateTime, Integer project, String StartTime, String EndTime, String saveIndex,
 			String saveIndexType) {
 		List<AdPayStats> saveStats = new ArrayList<AdPayStats>();
 		DataSourceSwitch.setDataSourceType(MutilDataSource.U_LEAJOY);
@@ -204,7 +204,7 @@ public class AdPayStatsServiceImpl {
 			adPayStats.setSdrate(adPayStats.getRate());
 			adPayStats.setSource_url(adPayStats.getSource_url());
 			adPayStats.setProject(adPayStats.getProject());
-			adPayStats.setStatsDate(DateUtils.getCurrent());
+			adPayStats.setStatsDate(DateUtils.parseDateTime(startPayDateTime));
 			saveStats.add(adPayStats);
 		}
 
@@ -221,13 +221,15 @@ public class AdPayStatsServiceImpl {
 		// adPay.setLoginTimeStart(StartTime);
 		adPay.setRegTimeEnd(EndTime);
 		adPay.setProjectname(projectName);
-		List<AdPayStats> payList = ipayService.findRegUserCntByRegUserCnt(adPay);
+		List<AdPayStats> payList = ipayService.findSumRegUserCntBySumRegUserCnt(adPay);
 		for (AdPayStats adPayStats : payList) {
 			adPayStats.setId(adPayStats.getId() + "-local-" + project);
 			adPayStats.setProject(project);
-			adPayStats.setSource_url("local");
+//			adPayStats.setSource_url("local");
+			System.out.println(adPayStats.getSumregusercnt());
 			adPayStats.setSumregusercnt(adPayStats.getSumregusercnt());
-			adPayStats.setStatsDate(DateUtils.getCurrent());
+			adPayStats.setStatsDate(DateUtils.parseDateTime(StartTime));
+			saveStats.add(adPayStats);
 		}
 
 		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());
@@ -249,7 +251,8 @@ public class AdPayStatsServiceImpl {
 			adPayStats.setProject(project);
 			adPayStats.setSource_url("local");
 			adPayStats.setSumloginusercnt(adPayStats.getSumloginusercnt());
-			adPayStats.setStatsDate(DateUtils.getCurrent());
+			adPayStats.setStatsDate(DateUtils.parseDateTime(StartTime));
+			saveStats.add(adPayStats);
 		}
 
 		baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType, saveStats.toArray());

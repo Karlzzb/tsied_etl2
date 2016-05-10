@@ -90,7 +90,7 @@ public class AdUserStatsTest extends AbstractJUnit4SpringContextTests {
 			Integer project = 2;
 			String saveIndex = "tmp_stats";
 			String saveIndexType = "www_stats";
-			String projectName = "u";
+			String projectName = "A_PORTAL";
 			String saveSumIndex = "pay_s";
 			String saveSumIndexType = "pay_game";
 
@@ -99,29 +99,26 @@ public class AdUserStatsTest extends AbstractJUnit4SpringContextTests {
 
 			aduserStatsService.aduserStatsAllDaily(index, project,
 					startDateTime, endDateTime);
-			// aduserStatsService.aduserStatsAllDaily("news-*", 3,
-			// startDateTime,
-			// endDateTime);
+
 			aduserStatsService.aduserSpeacilStats(index, project,
 					startDateTime, endDateTime);
-			// aduserStatsService.aduserSpeacilStats("news-*", 3, startDateTime,
-			// endDateTime);
 
-			adPayStatsServiceImpl.regUserCnt(id, project, startPayDateTime,
+
+			adPayStatsServiceImpl.regUserCnt(id, startPayDateTime, project, startPayDateTime,
 					endPayDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.loginUserCnt(id, project, startPayDateTime,
+			adPayStatsServiceImpl.loginUserCnt(id, startPayDateTime, project, startPayDateTime,
 					endPayDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.ydRetRate(id, project, startPayDateTime,
+			adPayStatsServiceImpl.ydRetRate(id, startPayDateTime, project, startPayDateTime,
 					endPayDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.tdRetRate(id, project, startPayDateTime,
+			adPayStatsServiceImpl.tdRetRate(id, startPayDateTime, project, startPayDateTime,
 					endPayDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.sdRetRate(id, project, startPayDateTime,
+			adPayStatsServiceImpl.sdRetRate(id, startPayDateTime, project, startPayDateTime,
 					endPayDateTime, saveIndex, saveIndexType);
-//			adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName,
-//					startPayDateTime, endPayDateTime, saveSumIndex,
-//					saveSumIndexType);
-//			adPayStatsServiceImpl.SumLoginUser(id, project, startPayDateTime,
-//					endPayDateTime, saveSumIndex, saveSumIndexType);
+			adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName,
+					startPayDateTime, endPayDateTime, saveSumIndex,
+					saveSumIndexType);
+			adPayStatsServiceImpl.SumLoginUser(id, project, startPayDateTime,
+					endPayDateTime, saveSumIndex, saveSumIndexType);
 		}
 	}
 
@@ -165,7 +162,7 @@ public class AdUserStatsTest extends AbstractJUnit4SpringContextTests {
 			Integer project = 3;
 			String saveIndex = "news_stats";
 			String saveIndexType = "news_stats";
-			String projectName = "u";
+			String projectName = "A_NEWS";
 			String saveSumIndex = "pay_news";
 			String saveSumIndexType = "pay_news";
 
@@ -174,29 +171,26 @@ public class AdUserStatsTest extends AbstractJUnit4SpringContextTests {
 
 			aduserStatsService.aduserStatsAllDaily(index, project,
 					startDateTime, endDateTime);
-			// aduserStatsService.aduserStatsAllDaily("news-*", 3,
-			// startDateTime,
-			// endDateTime);
+	
 			aduserStatsService.aduserSpeacilStats(index, project,
 					startDateTime, endDateTime);
-			// aduserStatsService.aduserSpeacilStats("news-*", 3, startDateTime,
-			// endDateTime);
+			
 
-			adPayStatsServiceImpl.regUserCnt(id, project, startPayDateTime,
+			adPayStatsServiceImpl.regUserCnt(id, startPayDateTime, project, startPayDateTime,
 					endPayDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.loginUserCnt(id, project, startPayDateTime,
+			adPayStatsServiceImpl.loginUserCnt(id, startPayDateTime, project, startPayDateTime,
 					endPayDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.ydRetRate(id, project, startPayDateTime,
+			adPayStatsServiceImpl.ydRetRate(id, startPayDateTime, project, startPayDateTime,
 					endPayDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.tdRetRate(id, project, startPayDateTime,
+			adPayStatsServiceImpl.tdRetRate(id, startPayDateTime, project, startPayDateTime,
 					endPayDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.sdRetRate(id, project, startPayDateTime,
+			adPayStatsServiceImpl.sdRetRate(id, startPayDateTime, project, startPayDateTime,
 					endPayDateTime, saveIndex, saveIndexType);
-//			adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName,
-//					startPayDateTime, endPayDateTime, saveSumIndex,
-//					saveSumIndexType);
-//			adPayStatsServiceImpl.SumLoginUser(id, project, startPayDateTime,
-//					endPayDateTime, saveSumIndex, saveSumIndexType);
+			adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName,
+					startPayDateTime, endPayDateTime, saveSumIndex,
+					saveSumIndexType);
+			adPayStatsServiceImpl.SumLoginUser(id, project, startPayDateTime,
+					endPayDateTime, saveSumIndex, saveSumIndexType);
 		}
 
 	}

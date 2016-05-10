@@ -126,7 +126,7 @@
  	 		
  	<!-- 某个项目总注册的人数 -->  
  	<select id="selectsumregusercnt" parameterType="_pay"  resultType="_pay">
-	select count(1) as sumregusercnt, #{projectname} as projectname, #{id} as id  from u_user_details where reg_app  = #{projectname} and reg_time &lt;= unix_timestamp(#{regTimeEnd})
+	select count(1) as sumregusercnt, #{projectname} as projectname, #{id} as id  from u_user_details where reg_app  = #{projectname} and reg_time &lt;= unix_timestamp(#{regTimeEnd});
  	</select>
  	
  	<!-- 某个项目登录的人数 -->	

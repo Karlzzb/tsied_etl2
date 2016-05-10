@@ -42,7 +42,7 @@ public class AdPayStatsTasks {
 			Integer project = 2;
 			String saveIndex = "tmp_stats";
 			String saveIndexType = "www_stats";
-			String projectName = "u";
+			String projectName = "A_PORTAL";
 
 			// adPayStatsServiceImpl.regUserPayCnt(id, project,
 			// startDateTime,
@@ -55,15 +55,15 @@ public class AdPayStatsTasks {
 			// adPayStatsServiceImpl.payCnt(id, project, startDateTime,
 			// endDateTime,
 			// saveIndex, saveIndexType);
-			adPayStatsServiceImpl.regUserCnt(id, project, startDateTime,
+			adPayStatsServiceImpl.regUserCnt(id, startDateTime, project, startDateTime,
 					endDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.loginUserCnt(id, project, startDateTime,
+			adPayStatsServiceImpl.loginUserCnt(id, startDateTime, project, startDateTime,
 					endDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.ydRetRate(id, project, startDateTime,
+			adPayStatsServiceImpl.ydRetRate(id, startDateTime, project, startDateTime,
 					endDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.tdRetRate(id, project, startDateTime,
+			adPayStatsServiceImpl.tdRetRate(id, startDateTime, project, startDateTime,
 					endDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.sdRetRate(id, project, startDateTime,
+			adPayStatsServiceImpl.sdRetRate(id, startDateTime, project, startDateTime,
 					endDateTime, saveIndex, saveIndexType);
 			adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName,
 					startDateTime, endDateTime, saveIndex, saveIndexType);
@@ -97,7 +97,7 @@ public class AdPayStatsTasks {
 			Integer project = 3;
 			String saveIndex = "news_stats";
 			String saveIndexType = "news_stats";
-			String projectName = "u";
+			String projectName = "A_NEWS";
 
 			// adPayStatsServiceImpl.regUserPayCnt(id, project,
 			// startDateTime,
@@ -110,15 +110,15 @@ public class AdPayStatsTasks {
 			// adPayStatsServiceImpl.payCnt(id, project, startDateTime,
 			// endDateTime,
 			// saveIndex, saveIndexType);
-			adPayStatsServiceImpl.regUserCnt(id, project, startDateTime,
+			adPayStatsServiceImpl.regUserCnt(id, startDateTime, project, startDateTime,
 					endDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.loginUserCnt(id, project, startDateTime,
+			adPayStatsServiceImpl.loginUserCnt(id, startDateTime, project, startDateTime,
 					endDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.ydRetRate(id, project, startDateTime,
+			adPayStatsServiceImpl.ydRetRate(id, startDateTime, project, startDateTime,
 					endDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.tdRetRate(id, project, startDateTime,
+			adPayStatsServiceImpl.tdRetRate(id, startDateTime, project, startDateTime,
 					endDateTime, saveIndex, saveIndexType);
-			adPayStatsServiceImpl.sdRetRate(id, project, startDateTime,
+			adPayStatsServiceImpl.sdRetRate(id, startDateTime, project, startDateTime,
 					endDateTime, saveIndex, saveIndexType);
 			adPayStatsServiceImpl.sumRegUserCnt(id, project, projectName,
 					startDateTime, endDateTime, saveIndex, saveIndexType);

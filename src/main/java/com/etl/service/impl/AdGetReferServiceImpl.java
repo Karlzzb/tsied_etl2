@@ -86,10 +86,11 @@ public class AdGetReferServiceImpl {
 			ipayService.saverefer(saveStats);
 
 		} catch (Exception e) {
-			log.error("AduserStatsAllDaily Insert or Update failed!", e);
+			log.error("adGetReferStats Insert or Update failed!", e);
 		}
 		// baseESOption.saveOrUpdateMultiObjests(saveIndex, saveIndexType,
 		// saveStats.toArray());
+		log.info("adGetReferStats Complete!");
 	}
 
 }
