@@ -1,5 +1,8 @@
 package com.etl;
 
+import java.util.Map;
+
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
@@ -24,12 +27,13 @@ import com.etl.es.BaseESOption;
 @ContextConfiguration(locations = "../../applicationContext.xml")
 public class EsTest extends AbstractJUnit4SpringContextTests {
 
-	/**
-	 * The Default web stats template
-	 */
-	private static String webStatsTemplate = Thread.currentThread().getContextClassLoader()
-			.getResource("resource/template/es/").getPath()
-			+ "flow-analysis.customcache";
+	// /**
+	// * The Default web stats template
+	// */
+	// private static String webStatsTemplate =
+	// Thread.currentThread().getContextClassLoader()
+	// .getResource("resource/template/es/").getPath()
+	// + "flow-analysis.customcache";
 
 	@Autowired
 	private BaseESOption apESOption;
@@ -54,20 +58,18 @@ public class EsTest extends AbstractJUnit4SpringContextTests {
 	}
 
 	@Test
-	public void searchTest2() {
-		SearchResponse sResponse = null;
-		try {
+	public void getById() {
+		GetResponse getResponse = apESOption.getClient().prepareGet("pay_s", "pay_game", "2016-05-10-local-2").get();
 
-			sResponse = baseESOption.execQuery(webStatsTemplate, "all_stats", Long.parseLong("1451577600000"),
-					Long.parseLong("1483199999999"), "ap_main_site");
+		Map<String, Object> source = getResponse.getSource();
+		System.out.println("------------------------------");
+		System.out.println("Index: " + getResponse.getIndex());
+		System.out.println("Type: " + getResponse.getType());
+		System.out.println("Id: " + getResponse.getId());
+		System.out.println("Version: " + getResponse.getVersion());
+		System.out.println(source);
+		System.out.println("------------------------------");
 
-			System.out.print(sResponse);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		} finally {
-		}
 	}
 
 	@Test
