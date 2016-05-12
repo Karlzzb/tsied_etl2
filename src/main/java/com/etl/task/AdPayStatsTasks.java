@@ -40,8 +40,8 @@ public class AdPayStatsTasks {
 					Calendar.DATE, dateInterval));
 
 			Integer project = 2;
-			String saveIndex = "tmp_stats";
-			String saveIndexType = "www_stats";
+			String saveIndex = "pay_stats";
+			String saveIndexType = "pay_stats";
 			String projectName = "A_PORTAL";
 
 			// adPayStatsServiceImpl.regUserPayCnt(id, project,
@@ -95,8 +95,8 @@ public class AdPayStatsTasks {
 					Calendar.DATE, dateInterval));
 
 			Integer project = 3;
-			String saveIndex = "news_stats";
-			String saveIndexType = "news_stats";
+			String saveIndex = "pay_news_stats";
+			String saveIndexType = "pay_news_stats";
 			String projectName = "A_NEWS";
 
 			// adPayStatsServiceImpl.regUserPayCnt(id, project,

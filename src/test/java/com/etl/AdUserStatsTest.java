@@ -51,7 +51,7 @@ public class AdUserStatsTest extends AbstractJUnit4SpringContextTests {
 
 	@Test
 	public void queryWwwTest() {
-		for (int i = 10; i > 0; i--) {
+		for (int i = 20; i >= 0; i--) {
 			Date today = DateUtils.addDate(DateUtils.getCurrent(), Calendar.DATE,
 					-i);
 //			Date today = DateUtils.getDateBegin(DateUtils.getCurrent());
@@ -88,8 +88,8 @@ public class AdUserStatsTest extends AbstractJUnit4SpringContextTests {
 
 			String index = "www-*";
 			Integer project = 2;
-			String saveIndex = "tmp_stats";
-			String saveIndexType = "www_stats";
+			String saveIndex = "pay_stats";
+			String saveIndexType = "pay_stats";
 			String projectName = "A_PORTAL";
 			String saveSumIndex = "pay_s";
 			String saveSumIndexType = "pay_game";
@@ -124,7 +124,7 @@ public class AdUserStatsTest extends AbstractJUnit4SpringContextTests {
 
 	@Test
 	public void queryNewsTest() {
-		for (int i = 10; i > 0; i--) {
+		for (int i = 20; i >= 0; i--) {
 			Date today = DateUtils.addDate(DateUtils.getCurrent(), Calendar.DATE,
 					-i);
 //			Date today = DateUtils.getDateBegin(DateUtils.getCurrent());
@@ -160,8 +160,8 @@ public class AdUserStatsTest extends AbstractJUnit4SpringContextTests {
 
 			String index = "news-*";
 			Integer project = 3;
-			String saveIndex = "news_stats";
-			String saveIndexType = "news_stats";
+			String saveIndex = "pay_news_stats";
+			String saveIndexType = "pay_news_stats";
 			String projectName = "A_NEWS";
 			String saveSumIndex = "pay_news";
 			String saveSumIndexType = "pay_news";
