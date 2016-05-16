@@ -1,5 +1,6 @@
 package com.etl;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import org.elasticsearch.action.get.GetResponse;
@@ -8,6 +9,8 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramBuilder;
+import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.junit.Test;
@@ -18,6 +21,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.etl.es.BaseESOption;
+import com.etl.es.entity.SearchResult;
 
 /**
  * @author Rainisic
@@ -99,6 +103,58 @@ public class EsTest extends AbstractJUnit4SpringContextTests {
 			sResponse = srb.execute().actionGet();
 
 			System.out.print(sResponse);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+		}
+	}
+
+	@Test
+	public void parseAggs() {
+		SearchResponse sResponse = null;
+		try {
+			SearchRequestBuilder srb = baseESOption
+					.getClient()
+					.prepareSearch("www-*")
+					.setPostFilter(
+							QueryBuilders.boolQuery().must(
+									QueryBuilders.matchPhraseQuery("clientip.raw", "211.103.255.5")))
+					.setSearchType(SearchType.DFS_QUERY_THEN_FETCH);
+
+			DateHistogramBuilder dateTermsBuilder = AggregationBuilders.dateHistogram("group by")
+					.timeZone("Asia/Hong_Kong").interval(DateHistogramInterval.DAY);
+			dateTermsBuilder.field("@timestamp");
+
+			TermsBuilder termAggs = AggregationBuilders.terms("myterm").field("clientip.raw");
+			dateTermsBuilder.subAggregation(termAggs);
+
+			termAggs.subAggregation(AggregationBuilders.topHits("top_req").setSize(1)
+					.addSort("@timestamp", SortOrder.DESC).setFetchSource(new String[] { "request", "refer" }, null));
+
+			termAggs.subAggregation(AggregationBuilders.topHits("button_req").setSize(1)
+					.addSort("@timestamp", SortOrder.ASC).setFetchSource(new String[] { "request" }, null));
+
+			srb.addAggregation(dateTermsBuilder);
+
+			sResponse = srb.execute().actionGet();
+			System.out.println(sResponse.toString());
+
+			System.out.println("------------------------------");
+			SearchResult myresult = new SearchResult(sResponse, null);
+			Map<String, Object> interminterList = null;
+			for (Iterator<Map<String, Object>> iterator = myresult.getResults().iterator(); iterator.hasNext();) {
+				interminterList = iterator.next();
+
+				for (String mapkey : interminterList.keySet()) {
+					System.out.println("key:" + mapkey);
+					System.out.println("key:" + interminterList.get(mapkey));
+				}
+				System.out.println("next loop!");
+			}
+			System.out.println("------------------------------");
+			System.out.print(myresult.getResults());
 
 		} catch (Exception e) {
 			e.printStackTrace();
